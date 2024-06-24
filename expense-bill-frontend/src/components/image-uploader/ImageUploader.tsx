@@ -1,30 +1,44 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { Upload, UploadFile, UploadProps } from "antd";
-import { useState } from "react";
+import { InboxOutlined } from "@ant-design/icons";
+import { UploadFile, UploadProps } from "antd";
+import Dragger from "antd/es/upload/Dragger";
 
-export const ImageUploader = () => {
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const UploadButton = (
-    <button style={{ border: 0, background: "none" }}>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  );
+type ImageUploaderProps = {
+  addFileToFileList: (file: UploadFile) => void;
+};
 
-  const handleImageChange: UploadProps["onChange"] = ({
-    fileList: newFileList,
-  }) => setFileList(newFileList);
-
-  const getImagesData = () => {
-    console.log(fileList);
+export const ImageUploader = (props: ImageUploaderProps) => {
+  const imageUploadProps: UploadProps = {
+    name: "file",
+    headers: {
+      authorization: "auth-text",
+    },
+    showUploadList: false,
+    onChange(info) {
+      const dummyObj = {
+        ...info.file,
+      };
+      dummyObj.status = "done";
+      props.addFileToFileList(dummyObj);
+    },
+    onDrop(event) {
+      console.log("Dropped Files ", event.dataTransfer.files);
+    },
+    style: {
+      height: "10rem",
+    },
   };
-
   return (
-    <>
-      <Upload listType="picture-card" onChange={handleImageChange}>
-        {UploadButton}
-      </Upload>
-      <button onClick={getImagesData}>Get Invoice Data</button>
-    </>
+    <Dragger {...imageUploadProps}>
+      <p className="ant-upload-drag-icon">
+        <InboxOutlined />
+      </p>
+      <p className="ant-upload-text">
+        Click or drag file to this area to upload
+      </p>
+      <p className="ant-upload-hint">
+        Support for a single or bulk upload. Strictly prohibited from uploading
+        company data or other banned files.
+      </p>
+    </Dragger>
   );
 };
