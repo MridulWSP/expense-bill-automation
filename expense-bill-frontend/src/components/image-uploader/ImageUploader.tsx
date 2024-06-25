@@ -14,11 +14,11 @@ export const ImageUploader = (props: ImageUploaderProps) => {
     },
     showUploadList: false,
     onChange(info) {
-      const dummyObj = {
+      const infoFileObj = {
         ...info.file,
       };
-      dummyObj.status = "done";
-      props.addFileToFileList(dummyObj);
+      infoFileObj.status = "done";
+      props.addFileToFileList(infoFileObj);
     },
     onDrop(event) {
       console.log("Dropped Files ", event.dataTransfer.files);

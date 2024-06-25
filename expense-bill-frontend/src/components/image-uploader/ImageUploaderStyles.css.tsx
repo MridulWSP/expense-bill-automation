@@ -10,15 +10,23 @@ export const ImageUploaderContainerStyles: CSSInterface = {
   },
   uploaderContainer: {
     width: "100%",
-    transition: "width 0.5s , height 0.5s",
+    transition: "width 1s ease",
     height: "16rem",
+  },
+  uploaderContainerShrink: {
+    width: "80%",
+    transition: "width 1s ease",
   },
   fileListContainer: {
     width: "100%",
     height: "16rem",
     overflowY: "scroll",
-    border: "1px solid #eae9e9",
-    padding: "0 10px",
+    border: "1px solid rgb(234, 233, 233)",
+    padding: "2px 10px 10px 10px",
     borderRadius: "10px",
+    transition: "width 1s ease 0s",
+  },
+  buttonContainer: {
+    marginTop: "30px",
   },
 };
