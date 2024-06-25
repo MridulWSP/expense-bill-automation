@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/expense-bill-automation/static/css/main.964fdded.css",
+    "main.js": "/expense-bill-automation/static/js/main.ad53d12e.js",
+    "static/js/453.a9839593.chunk.js": "/expense-bill-automation/static/js/453.a9839593.chunk.js",
+    "index.html": "/expense-bill-automation/index.html",
+    "main.964fdded.css.map": "/expense-bill-automation/static/css/main.964fdded.css.map",
+    "main.ad53d12e.js.map": "/expense-bill-automation/static/js/main.ad53d12e.js.map",
+    "453.a9839593.chunk.js.map": "/expense-bill-automation/static/js/453.a9839593.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.964fdded.css",
+    "static/js/main.ad53d12e.js"
+  ]
+}
