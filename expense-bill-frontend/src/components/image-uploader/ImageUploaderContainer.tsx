@@ -4,8 +4,12 @@ import { FileListContainer } from "./FileListContainer";
 import { Button, UploadFile } from "antd";
 import { ImageUploaderContainerStyles } from "./ImageUploaderStyles.css";
 import { FileTextFilled, LoadingOutlined } from "@ant-design/icons";
+import { useDispatch } from 'react-redux';
+import { fetchData } from "../../features/generateDataSlice";
+import {AppDispatch } from '../../store';
 
 export const ImageUploaderContainer = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const showFileListContainer = fileList.length > 0;
@@ -30,6 +34,7 @@ export const ImageUploaderContainer = () => {
         reader.onloadend = () => {
           const base64 = reader.result?.toString().split(",")[1];
           // dispatch action to call AI Model -> save response in
+          dispatch(fetchData());
           setIsLoading(true);
           // for mocking the api call loading behavior
           setTimeout(() => {
