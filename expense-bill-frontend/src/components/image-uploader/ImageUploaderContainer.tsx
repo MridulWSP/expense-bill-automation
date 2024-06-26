@@ -4,9 +4,10 @@ import { FileListContainer } from "./FileListContainer";
 import { Button, UploadFile } from "antd";
 import { ImageUploaderContainerStyles } from "./ImageUploaderStyles.css";
 import { FileTextFilled, LoadingOutlined } from "@ant-design/icons";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import { fetchData } from "../../features/generateDataSlice";
-import {AppDispatch } from '../../store';
+import { AppDispatch } from "../../store";
+import axios from "axios";
 
 export const ImageUploaderContainer = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -26,28 +27,55 @@ export const ImageUploaderContainer = () => {
       );
     });
   };
-  const getBase64Data = () => {
-    fileList.forEach((file: UploadFile) => {
-      const originFile = file?.originFileObj;
-      if (originFile) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64 = reader.result?.toString().split(",")[1];
-          // dispatch action to call AI Model -> save response in
-          dispatch(fetchData());
-          setIsLoading(true);
-          // for mocking the api call loading behavior
-          setTimeout(() => {
-            console.log(`Base64 String : ${base64}`);
-            setIsLoading(false);
-          }, 2000);
-        };
-        reader.onerror = (error) => {
-          console.log(`Error handling file: ${error}`);
-        };
-        reader.readAsDataURL(originFile);
+
+  // const getBase64Data = () => {
+  //   fileList.forEach((file: UploadFile) => {
+  //     const originFile = file?.originFileObj;
+  //     if (originFile) {
+  //       const reader = new FileReader();
+  //       reader.onloadend = () => {
+  //         const base64 = reader.result?.toString().split(",")[1];
+  //         // dispatch action to call AI Model -> save response in
+  //         dispatch(fetchData());
+  //         setIsLoading(true);
+  //         // for mocking the api call loading behavior
+  //         setTimeout(() => {
+  //           console.log(`Base64 String : ${base64}`);
+  //           setIsLoading(false);
+  //         }, 2000);
+  //       };
+  //       reader.onerror = (error) => {
+  //         console.log(`Error handling file: ${error}`);
+  //       };
+  //       reader.readAsDataURL(originFile);
+  //     }
+  //   });
+  // };
+
+  const analyzeDocument = async () => {
+    setIsLoading(true);
+    const formData = new FormData();
+    const file = fileList[0]?.originFileObj;
+    if (file) {
+      formData.append("file", file);
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/analyze-expense",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        console.log(response);
+      } catch (err) {
+        console.log("error", err);
+      } finally {
+        setIsLoading(false);
+        setFileList([]);
       }
-    });
+    }
   };
 
   return (
@@ -77,7 +105,7 @@ export const ImageUploaderContainer = () => {
             type="primary"
             size="large"
             icon={isLoading ? <LoadingOutlined /> : <FileTextFilled />}
-            onClick={getBase64Data}
+            onClick={analyzeDocument}
           >
             Generate Invoice Data
           </Button>
