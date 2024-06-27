@@ -5,18 +5,19 @@ import { Navbar } from "./components/nav-bar/NavBar";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import { InvoiceDataContainer } from "./components/invoice-data/InvoiceDataContainer";
 import Theme from "./theme/Theme";
-import { Provider } from 'react-redux';
-import store from './store';
+import { Provider } from "react-redux";
+import store from "./store";
+import { useState } from "react";
 
 const App = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const [fileResult, setFileResult] = useState<any>();
 
   return (
     <Provider store={store}>
       <ConfigProvider theme={Theme}>
-
         <Layout className="App">
           <Header
             style={{
@@ -36,8 +37,8 @@ const App = () => {
               height: "100vh",
             }}
           >
-            <ImageUploaderContainer />
-            <InvoiceDataContainer />
+            <ImageUploaderContainer setFileResult={setFileResult} />
+            {fileResult && <InvoiceDataContainer invoicesData={fileResult} />}
           </Content>
           <Footer style={{ textAlign: "center" }}>
             WSP Nordics © Created By Anand, Apurva, Rahul and Mridul
@@ -46,6 +47,6 @@ const App = () => {
       </ConfigProvider>
     </Provider>
   );
-}
+};
 
 export default App;

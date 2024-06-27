@@ -9,7 +9,10 @@ import { fetchData } from "../../features/generateDataSlice";
 import { AppDispatch } from "../../store";
 import axios from "axios";
 
-export const ImageUploaderContainer = () => {
+type ImageUploaderContainerProps = {
+  setFileResult: React.Dispatch<any>;
+};
+export const ImageUploaderContainer = (props: ImageUploaderContainerProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -69,6 +72,7 @@ export const ImageUploaderContainer = () => {
           }
         );
         console.log(response);
+        props.setFileResult(response);
       } catch (err) {
         console.log("error", err);
       } finally {
